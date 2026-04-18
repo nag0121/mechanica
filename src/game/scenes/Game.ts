@@ -1,5 +1,5 @@
 import { Scene } from 'phaser';
-import { MachineContainer } from './game/MachineContainer';
+import MachinesContainer from './game/MachinesContainer';
 
 export class Game extends Scene
 {
@@ -14,26 +14,16 @@ export class Game extends Scene
 
     create ()
     {
-        // this.camera = this.cameras.main;
-        // this.camera.setBackgroundColor(0x00ff00);
+        const {width, height} = this.game.scale;
 
-        // this.background = this.add.image(512, 384, 'background');
-        // this.background.setAlpha(0.5);
-
-        // this.msg_text = this.add.text(512, 384, 'Make something fun!\nand share it with us:\nsupport@phaser.io', {
-        //     fontFamily: 'Arial Black', fontSize: 38, color: '#ffffff',
-        //     stroke: '#000000', strokeThickness: 8,
-        //     align: 'center'
-        // });
-        // this.msg_text.setOrigin(0.5);
-
-        const machineContainer = new MachineContainer(this, {x : 0, y : 0});
+        const containerHeight = height * 0.2;
+        const machineContainer = new MachinesContainer(this, width * 0.5, height - (containerHeight * 0.5));
         this.add.existing(machineContainer);
 
-        this.input.once('pointerdown', () => {
+        // this.input.once('pointerdown', () => {
 
-            this.scene.start('GameOver');
+        //     this.scene.start('GameOver');
 
-        });
+        // });
     }
 }

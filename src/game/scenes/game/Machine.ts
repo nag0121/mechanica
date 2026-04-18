@@ -1,29 +1,41 @@
-export interface IMachine {
-    state : TMachineState
-    action() : void
-    getState() : TMachineState
-    setState(value : TMachineState ) : void
-}
+// core/machines/Machine.ts
 
-export type TMachineState = 'in-use' | 'no-charge' | 'idle';
+import { Scene, GameObjects } from 'phaser';
 
-export class Machine implements IMachine {
-    state: TMachineState
+export type MachineConfig = {
+  key: string;
+  processingTime?: number;
+};
 
-    constructor() {
-        this.state = "idle";
-    }
+export class Machine {
+  scene: Scene;
+  container: GameObjects.Container;
+  sprite: GameObjects.Image;
 
-    action(): void {
-        throw new Error("Method not implemented.")
-    }
-    
-    getState(): TMachineState {
-        return this.state;
-    }
+  key: string;
+  processingTime: number;
 
-    setState(value: TMachineState) {
-        this.state = value;
-    }
-    
+  constructor(scene: Scene, x: number, y: number, config: MachineConfig) {
+    this.scene = scene;
+
+    this.key = config.key;
+    this.processingTime = config.processingTime ?? 1000;
+
+    this.container = scene.add.container(x, y);
+
+    this.sprite = scene.add.image(0, 0, this.key);
+    this.container.add(this.sprite);
+  }
+
+  start() {
+    // override in subclasses
+  }
+
+  update(dt: number) {
+    // override if needed
+  }
+
+  destroy() {
+    this.container.destroy();
+  }
 }
